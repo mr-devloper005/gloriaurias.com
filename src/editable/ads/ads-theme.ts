@@ -7,18 +7,18 @@ import type { AdSkin } from '@/lib/ads/ad-frame'
 
 // Site-wide default skin — tune to your brand.
 export const adSkin: AdSkin = {
-  radius: '16px',
-  border: '1px solid rgba(0,0,0,0.06)',
-  shadow: '0 8px 30px rgba(0,0,0,0.06)',
+  radius: '18px',
+  border: '1px solid rgba(6,19,35,0.14)',
+  shadow: '0 18px 50px rgba(6,19,35,0.08)',
   background: '#ffffff',
-  labelClassName: 'bg-[#FF6600] text-white',
+  labelClassName: 'bg-[#061323] text-white',
 }
 
 // Optional per-slot overrides — adjust only where you need to.
 export const adSkinBySlot: Partial<Record<string, AdSkin>> = {
-  sidebar: { radius: '12px', shadow: 'none', border: '1px solid rgba(0,0,0,0.08)' },
+  sidebar: { radius: '18px', shadow: 'none', border: '1px solid rgba(6,19,35,0.14)' },
   popup: { radius: '24px' },
-  header: { radius: '20px', background: '#FFF9F2' },
+  header: { radius: '20px', background: '#f3fbfc' },
   rail: { radius: '14px' },
   feature: { radius: '18px' },
   interstitial: { radius: '20px', shadow: '0 20px 60px rgba(0,0,0,0.5)' },

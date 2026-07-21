@@ -7,6 +7,7 @@ import { pagesContent } from '@/editable/content/pages.content'
 import type { SitePost } from '@/lib/site-connector'
 import { EditableHomeCta, EditableHomeHero, EditableMagazineSplit, EditableStoryRail, EditableTimeCollections } from '@/editable/sections/HomeSections'
 import { EditableSiteShell } from '@/editable/shell/EditableSiteShell'
+import { isUiHiddenTask } from '@/editable/content/global.content'
 import { Ads } from '@/lib/ads'
 export const revalidate = 300
 
@@ -29,7 +30,7 @@ function uniquePosts(posts: SitePost[]) {
 }
 
 export default async function HomePage() {
-  const primaryTask = (SITE_CONFIG.tasks.find((task) => task.enabled)?.key || 'article') as TaskKey
+  const primaryTask = (SITE_CONFIG.tasks.find((task) => task.enabled && !isUiHiddenTask(task.key))?.key || 'sbm') as TaskKey
   const primaryRoute = SITE_CONFIG.taskViews[primaryTask] || `/${primaryTask}`
   const taskFeed: TaskFeedItem[] = await fetchHomeTaskFeed(12, { timeoutMs: 2500 })
   const primaryPosts = uniquePosts(taskFeed.find(({ task }) => task.key === primaryTask)?.posts || taskFeed.flatMap(({ posts }) => posts)).slice(0, 24)
@@ -61,9 +62,6 @@ export default async function HomePage() {
       <EditableMagazineSplit primaryTask={primaryTask} primaryRoute={primaryRoute} posts={primaryPosts} timeSections={timeSections} />
 
       <EditableTimeCollections primaryTask={primaryTask} primaryRoute={primaryRoute} posts={primaryPosts} timeSections={timeSections} />
-      <div className="mx-auto max-w-6xl px-4 py-6">
-  <Ads slot="sidebar" showLabel eager className="mx-auto w-full" />
-</div>
       <EditableHomeCta />
       </main>
     </EditableSiteShell>

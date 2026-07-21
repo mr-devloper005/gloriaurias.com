@@ -7,13 +7,16 @@ const productKind = getProductKind(recipe)
 
 export const slot4BrandConfig = {
   siteName: siteIdentity.name,
-  tagline: siteIdentity.tagline,
+  tagline: siteIdentity.tagline || 'Curated resources and collections',
   domain: siteIdentity.domain,
   baseUrl: siteIdentity.url,
   productKind,
   ogImage: siteIdentity.ogImage,
   accents: {
-    primary: '#d32323',
+    primary: '#26c4d3',
     surface: '#ffffff',
+    ink: '#061323',
+    soft: '#eefbfc',
+    coral: '#e27e7c',
   },
 } as const

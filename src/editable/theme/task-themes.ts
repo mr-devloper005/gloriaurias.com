@@ -32,24 +32,25 @@ export type TaskTheme = {
   radius: string
 }
 
-const YELP_FONT = "'Inter', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif"
+const DISPLAY_FONT = "'Mona Sans', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif"
+const BODY_FONT = "'Albert Sans', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif"
 
 // Shared Yelp palette — every task inherits this; only kicker/note differ.
 const base = {
   dark: false,
-  fontDisplay: YELP_FONT,
-  fontBody: YELP_FONT,
+  fontDisplay: DISPLAY_FONT,
+  fontBody: BODY_FONT,
   bg: '#ffffff',
   surface: '#ffffff',
-  raised: '#f7f7f7',
-  text: '#1a1a1a',
-  muted: '#6b6b6b',
-  line: '#e6e6e6',
-  accent: '#d32323',
-  accentSoft: '#fdecec',
+  raised: '#f3fbfc',
+  text: '#061323',
+  muted: '#536170',
+  line: 'rgba(6,19,35,0.14)',
+  accent: '#26c4d3',
+  accentSoft: '#e8fbfd',
   onAccent: '#ffffff',
-  glow: 'rgba(211,35,35,0.06)',
-  radius: '0.75rem',
+  glow: 'rgba(38,196,211,0.16)',
+  radius: '1.125rem',
 } satisfies Omit<TaskTheme, 'kicker' | 'note'>
 
 export const taskThemes: Record<TaskKey, TaskTheme> = {
@@ -57,9 +58,9 @@ export const taskThemes: Record<TaskKey, TaskTheme> = {
   listing: { ...base, kicker: 'Businesses', note: 'Find, compare and connect with local businesses.' },
   classified: { ...base, kicker: 'Marketplace', note: 'Fresh offers and listings, ready to act on.' },
   image: { ...base, kicker: 'Photos', note: 'A visual feed of standout images and galleries.' },
-  sbm: { ...base, kicker: 'Bookmarks', note: 'Curated resources and links worth saving.' },
+  sbm: { ...base, kicker: 'Resources', note: 'Curated links, tools, references and useful collections.' },
   pdf: { ...base, kicker: 'Documents', note: 'Downloadable guides, reports and references.' },
-  profile: { ...base, kicker: 'People', note: 'Discover creators, businesses and profiles.' },
+  profile: { ...base, kicker: 'Identity', note: 'Direct identity records remain available by URL.' },
 }
 
 export function getTaskTheme(task: TaskKey): TaskTheme {

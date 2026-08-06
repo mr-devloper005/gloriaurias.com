@@ -339,7 +339,7 @@ function BookmarkDetail({ post, related }: { post: SitePost; related: SitePost[]
   const domain = website.replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0] || 'Curated source'
   const collection = categoryOf(post, 'Reference')
   const tags = [collection, ...(post.tags || [])].filter(Boolean).slice(0, 5)
-  const plainSummary = stripHtml(summaryText(post))
+  const _plainSummary = stripHtml(summaryText(post))
   return (
     <>
       <section className="border-b border-[var(--tk-line)] bg-[var(--tk-text)] text-white">
@@ -453,7 +453,7 @@ function PdfDetail({ post, related }: { post: SitePost; related: SitePost[] }) {
   )
 }
 
-// ----- Identity: private direct-URL dossier -----
+// ----- Identity: hero-banner profile layout -----
 function ProfileDetail({ post, related: _related }: { post: SitePost; related: SitePost[] }) {
   const images = getImages(post)
   const role = getField(post, ['role', 'designation', 'company', 'location'])
@@ -463,50 +463,43 @@ function ProfileDetail({ post, related: _related }: { post: SitePost; related: S
   const initials = post.title.split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]?.toUpperCase()).join('') || 'ID'
   const bio = leadText(post) || stripHtml(getBody(post))
   return (
-    <section className="mx-auto max-w-[var(--editable-container)] px-6 py-12 sm:py-16 lg:px-8">
-      <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
-        <aside className="rounded-[var(--tk-radius)] bg-[var(--tk-text)] p-6 text-white sm:p-8 lg:min-h-[680px]">
-          <div className="flex items-start justify-between gap-4">
-            <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border border-white/20 bg-white/10 text-2xl font-semibold">
-              {images[0] ? <img src={images[0]} alt="" className="h-full w-full object-cover" /> : initials}
-            </div>
-            <span className="rounded-full border border-white/15 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/55">Direct URL</span>
+    <>
+      {/* Hero banner */}
+      <div className="bg-[var(--tk-text)] text-white">
+        <div className="mx-auto max-w-[var(--editable-container)] px-6 pb-16 pt-10 sm:pt-14 lg:px-8">
+          <div className="mb-8">
+            <BackLink task="profile" />
           </div>
-          <p className="mt-10 text-xs font-semibold uppercase tracking-[0.24em] text-[var(--tk-accent)]">Identity dossier</p>
-          <h1 className="editable-display mt-4 text-4xl font-semibold leading-tight tracking-[-0.03em] sm:text-5xl">{post.title}</h1>
-          {role ? <p className="mt-4 text-sm font-semibold uppercase tracking-[0.18em] text-white/62">{role}</p> : null}
-          {bio ? <p className="mt-7 text-base leading-8 text-white/70">{bio}</p> : null}
-          <div className="mt-8">
-            <ContactAction website={website} phone={phone} email={email} bare />
-          </div>
-        </aside>
-
-        <div className="grid gap-6">
-          <section className="rounded-[var(--tk-radius)] border border-[var(--tk-line)] bg-[var(--tk-surface)] p-6 sm:p-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tk-accent)]">Identity information</p>
-            <div className="mt-6 grid gap-3 sm:grid-cols-2">
-              {role ? <BadgeLine label="Role" value={role} /> : null}
-              {email ? <BadgeLine label="Email" value={email} /> : null}
-              {phone ? <BadgeLine label="Phone" value={phone} /> : null}
-              {website ? <BadgeLine label="Website" value={website.replace(/^https?:\/\//, '')} /> : null}
-            </div>
-          </section>
-
-          <section className="rounded-[var(--tk-radius)] border border-[var(--tk-line)] bg-[var(--tk-raised)] p-6 sm:p-8">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tk-accent)]">Their content</p>
-                <h2 className="editable-display mt-2 text-3xl font-semibold tracking-[-0.02em]">Attached notes and context</h2>
+          <div className="flex flex-col items-center text-center">
+            {/* Avatar */}
+            <div className="relative mb-6">
+              <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border-4 border-white/20 bg-white/10 text-3xl font-semibold ring-4 ring-[var(--tk-accent)]/30 sm:h-40 sm:w-40 sm:text-4xl">
+                {images[0] ? <img src={images[0]} alt="" className="h-full w-full object-cover" /> : initials}
               </div>
-            
+              <span className="absolute -bottom-2 right-0 rounded-full bg-[var(--tk-accent)] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--tk-on-accent)]">Profile</span>
             </div>
-            <BodyContent post={post} />
-          </section>
-
-          <ImageStrip images={images.slice(1)} label="Identity media" />
+            {/* Name & role */}
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--tk-accent)]">Identity dossier</p>
+            <h1 className="editable-display mt-3 text-balance text-4xl font-semibold leading-tight tracking-[-0.03em] sm:text-5xl lg:text-6xl">{post.title}</h1>
+            {role ? <p className="mt-3 text-sm font-semibold uppercase tracking-[0.18em] text-white/55">{role}</p> : null}
+            {bio ? <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-white/65">{bio}</p> : null}
+            {/* Contact buttons */}
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
+              {website ? <Link href={website} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[var(--tk-accent)] px-5 py-2.5 text-sm font-semibold text-[var(--tk-on-accent)] transition hover:opacity-90">Website <ExternalLink className="h-4 w-4" /></Link> : null}
+              {phone ? <a href={`tel:${phone}`} className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/20"><Phone className="h-4 w-4" /> Call</a> : null}
+              {email ? <a href={`mailto:${email}`} className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/20"><Mail className="h-4 w-4" /> Email</a> : null}
+            </div>
+          </div>
         </div>
       </div>
-    </section>
+
+      {/* Image strip — only rendered when extra images are available */}
+      {images.slice(1).length ? (
+        <section className="mx-auto max-w-[var(--editable-container)] px-6 py-12 sm:py-16 lg:px-8">
+          <ImageStrip images={images.slice(1)} label="Media" />
+        </section>
+      ) : null}
+    </>
   )
 }
 
